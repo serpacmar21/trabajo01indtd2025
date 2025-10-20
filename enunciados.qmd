@@ -1,0 +1,47 @@
+---
+title: "Trabajo 1. Teoría de la Decisión. Enunciados de los problemas."
+author: "Sergio Pacheco Márquez"
+format:
+  html: default
+  pdf: default
+---
+
+## Problema 1
+
+Una empresa de tecnología debe escoger la estrategia de lanzamiento de un nuevo dispositivo.\
+Las alternativas son:
+
+-   **E1:** Lanzamiento enfocado en publicidad en redes sociales.\
+-   **E2:** Lanzamiento con campaña televisiva nacional.\
+-   **E3:** Lanzamiento mixto (online + medios tradicionales).
+
+El resultado económico (beneficio en miles de euros) depende del estado del mercado:\
+**S1** (Alta demanda), **S2** (Demanda media) y **S3** (Baja demanda).
+
+Se dispone de la siguiente tabla de pagos (beneficios en miles de euros):
+
+| **Estrategia** | **S1 (Alta demanda)** | **S2 (Demanda media)** | **S3 (Baja demanda)** |
+|:----------------|-----------------:|------------------:|-----------------:|
+| **E1** | 80 | 40 | 10 |
+| **E2** | 100 | 50 | -20 |
+| **E3** | 70 | 60 | 30 |
+
+## Problema 2
+
+Una empresa de energías renovables debe decidir la localización de una nueva planta solar fotovoltaica.\
+Las alternativas de localización son:
+
+-   **L1:** Andalucía\
+-   **L2:** Castilla-La Mancha\
+-   **L3:** Aragón
+
+El beneficio proyectado (en millones de euros) depende del nivel de radiación solar anual, que se puede clasificar en tres escenarios posibles:\
+**S1** (Alta), **S2** (Media) y **S3** (Baja).
+
+Los beneficios estimados son los siguientes:
+
+| **Localización**            | **S1 (Alta)** | **S2 (Media)** | **S3 (Baja)** |
+|:----------------------------|--------------:|---------------:|--------------:|
+| **L1 (Andalucía)**          |            12 |              8 |             3 |
+| **L2 (Castilla-La Mancha)** |            10 |              9 |             6 |
+| **L3 (Aragón)**             |            11 |              7 |             4 |
