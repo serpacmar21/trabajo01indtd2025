@@ -1,0 +1,182 @@
+---
+title: "Trabajo 1. Teoría de la Decisión. Soluciones Problemas."
+author: "Sergio Pacheco Márquez"
+format:
+  html: default
+  pdf: default
+---
+
+## Problema 1
+
+Una empresa de tecnología debe escoger la estrategia de lanzamiento de un nuevo dispositivo.\
+Las alternativas son:
+
+-   **E1:** Lanzamiento enfocado en publicidad en redes sociales.\
+-   **E2:** Lanzamiento con campaña televisiva nacional.\
+-   **E3:** Lanzamiento mixto (online + medios tradicionales).
+
+El resultado económico (beneficio en miles de euros) depende del estado del mercado:\
+**S1** (Alta demanda), **S2** (Demanda media) y **S3** (Baja demanda).
+
+Se dispone de la siguiente tabla de pagos (beneficios en miles de euros):
+
+| **Estrategia** | **S1 (Alta demanda)** | **S2 (Demanda media)** | **S3 (Baja demanda)** |
+|:----------------|-----------------:|------------------:|-----------------:|
+| **E1** | 80 | 40 | 10 |
+| **E2** | 100 | 50 | -20 |
+| **E3** | 70 | 60 | 30 |
+
+```{r}
+source("teoriadecision_funciones_incertidumbre.R")
+```
+
+1.Definimos la tabla de pagos (beneficios en miles de euros)
+
+```{r}
+vector_pagos <- c(80,40,10,
+                  100,50,-20,
+                  70,60,30)
+
+tablaX <- crea.tablaX(
+  vector_matporfilas = vector_pagos,
+  numalternativas = 3,
+  numestados = 3,
+  nb_alternativas = c("E1_Redes", "E2_TV", "E3_Mixta"),
+  nb_estados = c("Alta", "Media", "Baja")
+)
+
+tablaX
+```
+
+Situación favorable
+
+```{r}
+wald_fav     <- criterio.Wald(tablaX, favorable = TRUE)
+optimista_fav <- criterio.Optimista(tablaX, favorable = TRUE)
+hurwicz_fav  <- criterio.Hurwicz(tablaX, alfa = 0.6, favorable = TRUE)
+laplace_fav  <- criterio.Laplace(tablaX, favorable = TRUE)
+savage_fav   <- criterio.Savage(tablaX, favorable = TRUE)
+puntoideal_fav <- criterio.PuntoIdeal(tablaX, favorable = TRUE)
+```
+
+Mostrar resultados
+
+```{r}
+cat("### Resultados (Situación Favorable)\n")
+cat("Wald: ", wald_fav$AlternativaOptima, "\n")
+cat("Optimista: ", optimista_fav$AlternativaOptima, "\n")
+cat("Hurwicz: ", hurwicz_fav$AlternativaOptima, "\n")
+cat("Laplace: ", laplace_fav$AlternativaOptima, "\n")
+cat("Savage: ", savage_fav$AlternativaOptima, "\n")
+cat("Punto Ideal: ", puntoideal_fav$AlternativaOptima, "\n")
+```
+
+Situacion desfavorable
+
+```{r}
+wald_desf     <- criterio.Wald(tablaX, favorable = FALSE)
+optimista_desf <- criterio.Optimista(tablaX, favorable = FALSE)
+hurwicz_desf  <- criterio.Hurwicz(tablaX, alfa = 0.6, favorable = FALSE)
+laplace_desf  <- criterio.Laplace(tablaX, favorable = FALSE)
+savage_desf   <- criterio.Savage(tablaX, favorable = FALSE)
+puntoideal_desf <- criterio.PuntoIdeal(tablaX, favorable = FALSE)
+```
+
+Mostrar resultados
+
+```{r}
+cat("### Resultados (Situación Desfavorable)\n")
+cat("Wald: ", wald_desf$AlternativaOptima, "\n")
+cat("Optimista: ", optimista_desf$AlternativaOptima, "\n")
+cat("Hurwicz: ", hurwicz_desf$AlternativaOptima, "\n")
+cat("Laplace: ", laplace_desf$AlternativaOptima, "\n")
+cat("Savage: ", savage_desf$AlternativaOptima, "\n")
+cat("Punto Ideal: ", puntoideal_desf$AlternativaOptima, "\n")
+```
+
+Aplicamos la función global 
+
+```{r}
+resultado_fav <- criterio.Todos(tablaX, alfa = 0.6, favorable = TRUE)
+resultado_desf <- criterio.Todos(tablaX, alfa = 0.6, favorable = FALSE)
+
+
+print("### Resumen global situación favorable")
+print(resultado_fav)
+
+
+print("### Resumen global situación desfavorable")
+print(resultado_desf)
+```
+
+## Conclusión
+
+- En la situación favorable, los criterios **Maximax** y **Hurwicz** recomiendan la alternativa **E2** (Publicidad en TV),  
+  mientras que **Laplace** y **Punto Ideal** se inclinan por **E3** (Publicidad mixta), que ofrece un equilibrio entre riesgo y beneficio.
+
+- En la situación desfavorable, los criterios **Wald**, **Laplace** y **Savage** recomiendan **E3**,  
+  ya que presenta la menor pérdida posible.
+
+- Por tanto, la decisión final recomendada es **E3 (Publicidad mixta)**, por ser la más robusta frente a la incertidumbre.
+
+## Problema 2
+
+Una empresa de energías renovables debe decidir la localización de una nueva planta solar fotovoltaica.\
+Las alternativas de localización son:
+
+-   **L1:** Andalucía\
+-   **L2:** Castilla-La Mancha\
+-   **L3:** Aragón
+
+El beneficio proyectado (en millones de euros) depende del nivel de radiación solar anual, que se puede clasificar en tres escenarios posibles:\
+**S1** (Alta), **S2** (Media) y **S3** (Baja).
+
+Los beneficios estimados son los siguientes:
+
+| **Localización**            | **S1 (Alta)** | **S2 (Media)** | **S3 (Baja)** |
+|:----------------------------|--------------:|---------------:|--------------:|
+| **L1 (Andalucía)**          |            12 |              8 |             3 |
+| **L2 (Castilla-La Mancha)** |            10 |              9 |             6 |
+| **L3 (Aragón)**             |            11 |              7 |             4 |
+
+```{r}
+source("teoriadecision_funciones_incertidumbre.R")
+```
+
+1.Definimos la tabla de pagos (beneficios en millones de euros)
+
+```{r}
+vector_pagos2 <- c(12, 8, 3,
+                   10, 9, 6,
+                   11, 7, 4)
+
+tablaX2 <- crea.tablaX(
+  vector_matporfilas = vector_pagos2,
+  numalternativas = 3,
+  numestados = 3,
+  nb_alternativas = c("L1_Andalucía", "L2_CastillaLaMancha", "L3_Aragón"),
+  nb_estados = c("Alta", "Media", "Baja")
+)
+
+tablaX2
+```
+
+Aplicamos la función global
+
+```{r}
+resultado_total <- criterio.Todos(tablaX2, alfa = 0.6, favorable = TRUE)
+print("### Resumen global Problema 2")
+print(resultado_total)
+```
+
+## Conclusión
+
+- La tabla resumen obtenida muestra las decisiones recomendadas por cada método.  
+  - En este caso, la mayoría de los criterios coinciden en que la mejor alternativa es **L2 (Castilla-La Mancha)**.  
+  - Esta localización presenta el mejor equilibrio entre rendimiento medio y riesgo bajo ante la incertidumbre del nivel de radiación solar.
+
+- Por tanto, la decisión final recomendada es **L2: Castilla-La Mancha** como ubicación óptima para la nueva planta solar.
+
+
+
+
