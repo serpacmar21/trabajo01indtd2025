@@ -6,6 +6,48 @@ format:
   pdf: default
 ---
 
+```{r}
+
+# Cargar librerías necesarias
+library(tinytable)
+
+# Cargar script con funciones
+source("teoriadecision_funciones_incertidumbre.R")
+
+# Preparar tema propio para tablas
+colores <- hcl.colors(5, palette = "Berlin")
+
+crea_vector_posiciones_tabla <- function(numero_columnas) {
+  posiciones <- ""
+  for(i in 1:numero_columnas) {
+    posiciones <- paste0(posiciones,"c")
+  }
+  return(posiciones)
+}
+
+crea_tabla_estilo <- function(tabla, nombresfila = TRUE) {
+
+  if (nombresfila == TRUE) {
+    rn <- rownames(tabla)
+    if (is.null(rn)) rn <- rep("", nrow(tabla))
+    tabla <- cbind(rn = rn, tabla, stringsAsFactors = FALSE)
+    colnames(tabla)[1] <- ""   
+    rownames(tabla) <- NULL 
+  }
+
+  t <- tt(tabla, theme = "empty", width=1) |>
+    format_tt(quarto=TRUE) |>
+    style_tt(j = 1:ncol(tabla), align = crea_vector_posiciones_tabla(ncol(tabla)), alignv = "m") |>
+    style_tt(i = 0, line = "b", line_color = colores[2], line_width = 0.2,
+    background = colores[5], color = colores[3]) |> 
+    style_tt(i = 0, line = "t", line_color = colores[1], line_width = 0.1) |> 
+    style_tt(i = 1:nrow(tabla), line = "b", line_color = colores[1], line_width = 0.1) |> style_tt(j = 1:(ncol(tabla)-1), line = "r", line_color = colores[1], line_width = 0.1)
+
+  return(t)
+}
+
+```
+
 ## Problema 1
 
 Una empresa de tecnología debe escoger la estrategia de lanzamiento de un nuevo dispositivo.\
@@ -20,11 +62,29 @@ El resultado económico (beneficio en miles de euros) depende del estado del mer
 
 Se dispone de la siguiente tabla de pagos (beneficios en miles de euros):
 
-| **Estrategia** | **S1 (Alta demanda)** | **S2 (Demanda media)** | **S3 (Baja demanda)** |
-|:----------------|-----------------:|------------------:|-----------------:|
-| **E1** | 80 | 40 | 10 |
-| **E2** | 100 | 50 | -20 |
-| **E3** | 70 | 60 | 30 |
+```{r}
+# Creamos la matriz de pagos (en miles de euros)
+matriz_pagos <- matrix(c(
+  80, 40, 10,   # E1
+  100, 50, -20, # E2
+  70, 60, 30    # E3
+), 
+nrow = 3,
+byrow = TRUE)
+
+# Convertimos la matriz en un data frame
+tabla_pagos <- as.data.frame(matriz_pagos)
+
+# Asignamos nombres de columnas (estados de la naturaleza)
+colnames(tabla_pagos) <- c("S1", "S2", "S3")
+
+# Asignamos nombres de filas (estrategias)
+rownames(tabla_pagos) <- c("E1", "E2", "E3")
+
+# Mostramos la tabla con estilo
+crea_tabla_estilo(tabla_pagos, TRUE)
+
+```
 
 ```{r}
 source("teoriadecision_funciones_incertidumbre.R")
@@ -133,11 +193,32 @@ El beneficio proyectado (en millones de euros) depende del nivel de radiación s
 
 Los beneficios estimados son los siguientes:
 
-| **Localización**            | **S1 (Alta)** | **S2 (Media)** | **S3 (Baja)** |
-|:----------------------------|--------------:|---------------:|--------------:|
-| **L1 (Andalucía)**          |            12 |              8 |             3 |
-| **L2 (Castilla-La Mancha)** |            10 |              9 |             6 |
-| **L3 (Aragón)**             |            11 |              7 |             4 |
+```{r}
+# Creamos la matriz de pagos (beneficios en miles de euros)
+matriz_localizacion <- matrix(c(
+  12, 8, 3,   # L1 (Andalucía)
+  10, 9, 6,   # L2 (Castilla-La Mancha)
+  11, 7, 4    # L3 (Aragón)
+),
+nrow = 3,
+byrow = TRUE)
+
+# Convertimos la matriz en un data frame
+tabla_localizacion <- as.data.frame(matriz_localizacion)
+
+# Asignamos nombres de columnas (estados de la naturaleza)
+colnames(tabla_localizacion) <- c("S1 (Alta)", "S2 (Media)", "S3 (Baja)")
+
+# Asignamos nombres de filas (localizaciones)
+rownames(tabla_localizacion) <- c("L1 (Andalucía)", 
+                                  "L2 (Castilla-La Mancha)", 
+                                  "L3 (Aragón)")
+
+# Mostramos la tabla con estilo 
+crea_tabla_estilo(tabla_localizacion, TRUE)
+
+
+```
 
 ```{r}
 source("teoriadecision_funciones_incertidumbre.R")
