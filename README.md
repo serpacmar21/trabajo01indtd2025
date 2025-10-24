@@ -1,7 +1,6 @@
 # Trabajo de Teoría de la Decisión
 
-Este repositorio contiene el trabajo correspondiente a la materia de **Teoría de la Decisión**, con un enfoque en funciones de incertidumbre y resolución de enunciados.
-
+Este repositorio contiene el trabajo correspondiente de **Teoría de la Decisión**.
 ## Estructura del repositorio
 
 - **teoriadecision_funciones_incertidumbre/**  
